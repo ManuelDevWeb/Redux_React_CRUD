@@ -1,14 +1,15 @@
+// React Router
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+
 // Components
 import { Header } from "./components/Header";
 import { Productos } from "./components/Productos";
 import { NuevoProducto } from "./components/NuevoProducto";
 import { EditarProducto } from "./components/EditarProducto";
 
-// React Router
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-
 // Redux
 import { Provider } from "react-redux";
+// Store
 import store from "./store";
 
 function App() {

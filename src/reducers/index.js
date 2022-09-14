@@ -1,4 +1,4 @@
-// Los reducers son funciones que saben que hacer con las acciones y el payload
+// Los reducers son funciones que saben que hacer con las acciones y el payload, para actualizar el state del store
 
 import { combineReducers } from "redux";
 

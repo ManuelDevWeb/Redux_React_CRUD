@@ -1,4 +1,4 @@
-// Encargado del state de la aplicacion completa
+// Encargado del state de la aplicacion completa, lo comparte con los demas componentes
 
 import { configureStore } from "@reduxjs/toolkit";
 // import { applyMiddleware, compose } from "redux";
