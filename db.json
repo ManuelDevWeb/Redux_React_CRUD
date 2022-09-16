@@ -19,6 +19,21 @@
       "nombre": "Jugo de Naranja",
       "precio": "400",
       "id": 4
+    },
+    {
+      "nombre": "Tequila",
+      "precio": 15,
+      "id": 5
+    },
+    {
+      "nombre": "Tequila",
+      "precio": 100,
+      "id": 6
+    },
+    {
+      "nombre": "Tequila",
+      "precio": 2,
+      "id": 7
     }
   ]
 }

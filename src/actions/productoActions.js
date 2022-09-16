@@ -9,16 +9,37 @@ import {
   AGREGAR_PRODUCTO_ERROR,
 } from "../types";
 
+// Importando cliente Axios
+import { clienteAxios } from "../config/axios";
+
+// Sweet alert
+import Swal from "sweetalert2";
+
 // Crear nuevos productos
 export const crearNuevoProductoAction = (producto) => {
-  // Dispatch ejecuta las acciones
-  return (dispatch) => {
+  return async (dispatch) => {
+    // Dispatch ejecuta las acciones hacia el reducer (Reducer actualiza state)
     dispatch(agregarProducto());
-
     try {
+      // Insertar en la API o DB
+      await clienteAxios.post("/productos", producto);
+
+      // Dispatch ejecuta las acciones hacia el reducer (Reducer actualiza state)
       dispatch(agregarProductoExito(producto));
+
+      // Alerta de exito
+      Swal.fire("Correcto", "El producto se agrego correctamente", "success");
     } catch (error) {
+      console.log(error);
+      // Dispatch ejecuta las acciones hacia el reducer (Reducer actualiza state)
       dispatch(agregarProductoError(true));
+
+      // Alerta de error
+      Swal.fire({
+        icon: "error",
+        title: "Hubo un error",
+        text: "Hubo un error, intenta de nuevo",
+      });
     }
   };
 };
