@@ -7,6 +7,9 @@ import {
   AGREGAR_PRODUCTO,
   AGREGAR_PRODUCTO_EXITO,
   AGREGAR_PRODUCTO_ERROR,
+  COMENZAR_DESCARGA_PRODUCTOS,
+  DESCARGA_PRODUCTO_EXITO,
+  DESCARGA_PRODUCTO_ERROR,
 } from "../types";
 
 // Importando cliente Axios
@@ -66,4 +69,47 @@ const agregarProductoError = (estado) => ({
   type: AGREGAR_PRODUCTO_ERROR,
   // Data que modificara el state
   payload: estado,
+});
+
+// Descargar productos de la DB
+export const obtenerProductosAction = () => {
+  return async (dispatch) => {
+    // Dispatch ejecuta las acciones hacia el reducer (Reducer actualiza state)
+    dispatch(descargarProductos());
+
+    try {
+      // Consulta a la API
+      const { data } = await clienteAxios.get("/productos");
+      // Dispatch ejecuta las acciones hacia el reducer (Reducer actualiza state)
+      dispatch(descargaProductosExitosa(data));
+    } catch (error) {
+      console.log(error);
+      // Dispatch ejecuta las acciones hacia el reducer (Reducer actualiza state)
+      dispatch(descargaProductosError());
+    }
+  };
+};
+
+// Funcion que envia el type y payload para actualizar el loading dentro del reducer
+const descargarProductos = () => ({
+  // Tipo de accion
+  type: COMENZAR_DESCARGA_PRODUCTOS,
+  // Data que modificara el state
+  payload: true,
+});
+
+// Funcion que envia el type y payload para actualizar los productos dentro del reducer
+const descargaProductosExitosa = (productos) => ({
+  // Tipo de accion
+  type: DESCARGA_PRODUCTO_EXITO,
+  // Data que modificara el state
+  payload: productos,
+});
+
+// Funcion que envia el type y payload para actualizar el error dentro del reducer
+const descargaProductosError = () => ({
+  // Tipo de accion
+  type: DESCARGA_PRODUCTO_ERROR,
+  // Data que modificara el state
+  payload: true,
 });
