@@ -10,6 +10,8 @@ import {
   OBTENER_PRODUCTO_ELIMINAR,
   PRODUCTO_ELIMINADO_ERROR,
   PRODUCTO_ELIMINADO_EXITO,
+  OBTENER_PRODUCTO_EDITAR,
+  PRODUCTO_EDITADO_EXITO,
 } from "../types";
 
 // Cada Reducer tiene su propio state
@@ -18,6 +20,7 @@ const initialState = {
   error: null,
   loading: false,
   productoEliminar: null,
+  productoEditar: null,
 };
 
 // Si el store envia el state toma ese, sino toma el definido en este reducer
@@ -66,6 +69,21 @@ export default function (state = initialState, action) {
           (producto) => producto.id !== state.productoEliminar
         ),
         productoEliminar: null,
+      };
+    }
+    case OBTENER_PRODUCTO_EDITAR: {
+      return {
+        ...state,
+        productoEditar: action.payload,
+      };
+    }
+    case PRODUCTO_EDITADO_EXITO: {
+      return {
+        ...state,
+        productoEditar: null,
+        productos: state.productos.map((producto) =>
+          producto.id === action.payload.id ? action.payload : producto
+        ),
       };
     }
     default:

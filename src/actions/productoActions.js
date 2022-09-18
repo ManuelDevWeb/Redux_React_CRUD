@@ -13,6 +13,10 @@ import {
   OBTENER_PRODUCTO_ELIMINAR,
   PRODUCTO_ELIMINADO_ERROR,
   PRODUCTO_ELIMINADO_EXITO,
+  OBTENER_PRODUCTO_EDITAR,
+  COMENZAR_EDICION_PRODUCTO,
+  PRODUCTO_EDITADO_ERROR,
+  PRODUCTO_EDITADO_EXITO,
 } from "../types";
 
 // Importando cliente Axios
@@ -162,4 +166,50 @@ const eliminarProductoError = () => ({
   type: PRODUCTO_ELIMINADO_ERROR,
   // Data que modificara el state
   payload: true,
+});
+
+// Obtener producto a editar
+export const obtenerProductoEditarAction = (producto) => {
+  return async (dispatch) => {
+    // Dispatch ejecuta las acciones hacia el reducer (Reducer actualiza state)
+    dispatch(obtenerProductoEditar(producto));
+  };
+};
+
+// Funcion que envia el type y payload para actualizar el producto a editar dentro del reducer
+const obtenerProductoEditar = (producto) => ({
+  // Tipo de accion
+  type: OBTENER_PRODUCTO_EDITAR,
+  // Data que modificara el state
+  payload: producto,
+});
+
+// Editar producto en la DB
+export const editarProductoAcion = (newProducto) => {
+  return async (dispatch) => {
+    // Dispatch ejecuta las acciones hacia el reducer (Reducer actualiza state)
+    dispatch(editarProducto());
+    try {
+      // Actualizando producto en la API
+      await clienteAxios.put(`/productos/${newProducto.id}`, newProducto);
+      // Dispatch ejecuta las acciones hacia el reducer (Reducer actualiza state)
+      dispatch(editarProductoExito(newProducto));
+    } catch (error) {
+      // Dispatch ejecuta las acciones hacia el reducer (Reducer actualiza state)
+    }
+  };
+};
+
+// Funcion que envia el type y payload para actualizar el state
+const editarProducto = () => ({
+  // Tipo de accion
+  type: COMENZAR_EDICION_PRODUCTO,
+});
+
+// Funcion que envia el type y payload para actualizar los productos con el nuevo producto editado
+const editarProductoExito = (newProducto) => ({
+  // Tipo de accion
+  type: PRODUCTO_EDITADO_EXITO,
+  // Data que modificara el state
+  payload: newProducto,
 });
