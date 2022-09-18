@@ -10,6 +10,9 @@ import {
   COMENZAR_DESCARGA_PRODUCTOS,
   DESCARGA_PRODUCTO_EXITO,
   DESCARGA_PRODUCTO_ERROR,
+  OBTENER_PRODUCTO_ELIMINAR,
+  PRODUCTO_ELIMINADO_ERROR,
+  PRODUCTO_ELIMINADO_EXITO,
 } from "../types";
 
 // Importando cliente Axios
@@ -110,6 +113,53 @@ const descargaProductosExitosa = (productos) => ({
 const descargaProductosError = () => ({
   // Tipo de accion
   type: DESCARGA_PRODUCTO_ERROR,
+  // Data que modificara el state
+  payload: true,
+});
+
+// Seleccionar y eliminar producto
+export const borrarProductoAction = (id) => {
+  return async (dispatch) => {
+    // Dispatch ejecuta las acciones hacia el reducer (Reducer actualiza state)
+    dispatch(obtenerProductoEliminar(id));
+
+    try {
+      // Eliminando de la API
+      await clienteAxios.delete(`/productos/${id}`);
+      // Dispatch ejecuta las acciones hacia el reducer (Reducer actualiza state)
+      dispatch(eliminarProductoExito());
+      // Si se elimina mostramos la alerta
+      Swal.fire(
+        "Eliminado!",
+        "El producto se elimino correctamente.",
+        "success"
+      );
+    } catch (error) {
+      // Dispatch ejecuta las acciones hacia el reducer (Reducer actualiza state)
+      dispatch(eliminarProductoError());
+    }
+  };
+};
+
+// Funcion que envia el type y payload para actualizar el producto a eliminar dentro del reducer
+const obtenerProductoEliminar = (id) => ({
+  // Tipo de accion
+  type: OBTENER_PRODUCTO_ELIMINAR,
+  // Data que modificara el state
+  payload: id,
+});
+
+// Funcion que envia el type para eliminar el producto del statate productos dentro del reducer
+const eliminarProductoExito = () => ({
+  // Tipo de accion
+  type: PRODUCTO_ELIMINADO_EXITO,
+  // Data que modificara el state (En este caso no porque ya lo tenemos en la variable productoElimiar del state)
+});
+
+// Funcion que envia el type y payload para actualizar el error dentro del reducer
+const eliminarProductoError = () => ({
+  // Tipo de accion
+  type: PRODUCTO_ELIMINADO_ERROR,
   // Data que modificara el state
   payload: true,
 });
